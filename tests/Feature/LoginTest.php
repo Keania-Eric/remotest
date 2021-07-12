@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use Tests\TestCase;
 use App\Models\User;
+use Laravel\Sanctum\Sanctum;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 
@@ -45,5 +46,24 @@ class LoginTest extends TestCase
 
         // There was a successful response
         $response->assertStatus(422);
+    }
+
+    /**
+     * Test a user with right details can login successful
+     *
+     * @return void
+     */
+    public function test_logout_can_success()
+    {
+        $existingUser = User::factory()->create();
+        
+        Sanctum::actingAs($existingUser, ['*']);
+        
+        $url = route('logout');
+
+        $response  = $this->Json('POST', $url, []);
+       
+        // There was a successful response
+        $response->assertStatus(200);
     }
 }

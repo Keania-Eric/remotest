@@ -48,9 +48,20 @@ class LoginController extends Controller
         }
         
     }
-
+    
+    /**
+     * Method logout
+     *
+     * @param Request $request [explicite description]
+     *
+     * @return void
+     */
     public function logout(Request $request)
     {
-        
+        $user = $request->user();
+
+        $user->tokens()->delete();
+
+        return $this->successResponse([], 'Logout was successful!', Response::HTTP_OK);
     }
 }
