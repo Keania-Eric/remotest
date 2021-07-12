@@ -24,7 +24,7 @@ class RegisterController extends Controller
         try {
 
             $data = $request->getSanitized();
-            
+            $data['password'] = bcrypt($data['password']);
             $user = User::create($data);
 
             return $this->successResponse($user->toArray(), 'Accounted created successfully!', Response::HTTP_CREATED);
